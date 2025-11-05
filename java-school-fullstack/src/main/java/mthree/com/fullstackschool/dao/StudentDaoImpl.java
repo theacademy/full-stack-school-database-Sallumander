@@ -29,7 +29,7 @@ public class StudentDaoImpl implements StudentDao {
         //YOUR CODE STARTS HERE
         student.setStudentId(0);
 
-        final String sql = "INSERT INTO student (firstName, lastName) VALUES (?, ?)";
+    final String sql = "INSERT INTO student (fName, lName) VALUES (?, ?)";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -51,7 +51,7 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     public List<Student> getAllStudents() {
         //YOUR CODE STARTS HERE
-        String sql = "SELECT * FROM student";
+    String sql = "SELECT * FROM student";
         List<Student> students = jdbcTemplate.query(sql, new StudentMapper());
 
         return students;
@@ -62,7 +62,7 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     public Student findStudentById(int id) {
         //YOUR CODE STARTS HERE
-        String sql = "SELECT * FROM student WHERE sid = ?";
+    String sql = "SELECT * FROM student WHERE sid = ?";
         Student student = jdbcTemplate.queryForObject(sql, new StudentMapper(), id);
         return student;
     
@@ -73,8 +73,8 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     public void updateStudent(Student student) {
         //YOUR CODE STARTS HERE
-        String sql = "UPDATE student SET firstName = ?, lastName = ? WHERE sid = ?";
-        jdbcTemplate.update(sql, student.getStudentFirstName(), student.getStudentLastName(), student.getStudentId());
+    String sql = "UPDATE student SET fName = ?, lName = ? WHERE sid = ?";
+    jdbcTemplate.update(sql, student.getStudentFirstName(), student.getStudentLastName(), student.getStudentId());
 
         //YOUR CODE ENDS HERE
     }

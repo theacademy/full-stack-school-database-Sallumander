@@ -24,12 +24,13 @@ public class TeacherDaoImpl implements TeacherDao {
         //YOUR CODE STARTS HERE
 
         teacher.setTeacherId(0);
-        final String sql = "INSERT INTO teacher (firstName, lastName) VALUES (?, ?)";
+    final String sql = "INSERT INTO teacher (tFName, tLName, dept) VALUES (?, ?, ?)";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, teacher.getTeacherFName());
             ps.setString(2, teacher.getTeacherLName());
+            ps.setString(3, teacher.getDept());
             return ps;
         }, keyHolder);
         Number key = keyHolder.getKey();
@@ -67,8 +68,8 @@ public class TeacherDaoImpl implements TeacherDao {
     public void updateTeacher(Teacher t) {
         //YOUR CODE STARTS HERE
 
-        String sql = "UPDATE teacher SET firstName = ?, lastName = ? WHERE tid = ?";
-        jdbcTemplate.update(sql, t.getTeacherFName(), t.getTeacherLName(), t.getTeacherId());
+    String sql = "UPDATE teacher SET tFName = ?, tLName = ?, dept = ? WHERE tid = ?";
+    jdbcTemplate.update(sql, t.getTeacherFName(), t.getTeacherLName(), t.getDept(), t.getTeacherId());
 
         //YOUR CODE ENDS HERE
     }
