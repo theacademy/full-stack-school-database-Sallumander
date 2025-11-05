@@ -24,6 +24,12 @@ public class StudentServiceImpl implements StudentServiceInterface {
         this.courseService = courseService;
     }
     
+    // Backwards-compatible constructor used by tests/stubs that only provide a StudentDao
+    public StudentServiceImpl(StudentDao studentDao) {
+        this.studentDao = studentDao;
+        this.courseService = null;
+    }
+    
 
     //YOUR CODE ENDS HERE
 
@@ -107,6 +113,11 @@ public class StudentServiceImpl implements StudentServiceInterface {
             return;
         }
 
+        if (courseService == null) {
+            System.out.println("Course service unavailable");
+            return;
+        }
+
         Course course = courseService.getCourseById(courseId);
         if ("Course Not Found".equals(course.getCourseName())) {
             System.out.println("Course not found");
@@ -119,16 +130,14 @@ public class StudentServiceImpl implements StudentServiceInterface {
     }
 
     public void addStudentToCourse(int studentId, int courseId) {
-        //YOUR CODE STARTS HERE
-        Student student = getStudentById(studentId);
+        private final StudentDao studentDao;
         if ("Student Not Found".equals(student.getStudentFirstName())) {
             System.out.println("Student not found");
+        public StudentServiceImpl(StudentDao studentDao) {
+            this.studentDao = studentDao;
+        }
             return;
         }
-
-        Course course = courseService.getCourseById(courseId);
-        if ("Course Not Found".equals(course.getCourseName())) {
-            System.out.println("Course not found");
             return;
         }
 
