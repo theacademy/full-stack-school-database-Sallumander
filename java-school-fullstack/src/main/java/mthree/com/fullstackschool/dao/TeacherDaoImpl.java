@@ -23,7 +23,20 @@ public class TeacherDaoImpl implements TeacherDao {
     public Teacher createNewTeacher(Teacher teacher) {
         //YOUR CODE STARTS HERE
 
-        return null;
+        teacher.setTeacherId(0);
+        final String sql = "INSERT INTO teacher (firstName, lastName) VALUES (?, ?)";
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, teacher.getTeacherFName());
+            ps.setString(2, teacher.getTeacherLName());
+            return ps;
+        }, keyHolder);
+        Number key = keyHolder.getKey();
+        if (key != null) {
+            teacher.setTeacherId(key.intValue());
+        }
+        return teacher;
 
         //YOUR CODE ENDS HERE
     }
@@ -32,7 +45,9 @@ public class TeacherDaoImpl implements TeacherDao {
     public List<Teacher> getAllTeachers() {
         //YOUR CODE STARTS HERE
 
-        return null;
+        String sql = "SELECT * FROM teacher";
+        List<Teacher> teachers = jdbcTemplate.query(sql, new TeacherMapper());
+        return teachers;
 
         //YOUR CODE ENDS HERE
     }
@@ -41,7 +56,9 @@ public class TeacherDaoImpl implements TeacherDao {
     public Teacher findTeacherById(int id) {
         //YOUR CODE STARTS HERE
 
-        return null;
+        String sql = "SELECT * FROM teacher WHERE tid = ?";
+        Teacher teacher = jdbcTemplate.queryForObject(sql, new TeacherMapper(), id);
+        return teacher;
 
         //YOUR CODE ENDS HERE
     }
@@ -50,6 +67,8 @@ public class TeacherDaoImpl implements TeacherDao {
     public void updateTeacher(Teacher t) {
         //YOUR CODE STARTS HERE
 
+        String sql = "UPDATE teacher SET firstName = ?, lastName = ? WHERE tid = ?";
+        jdbcTemplate.update(sql, t.getTeacherFName(), t.getTeacherLName(), t.getTeacherId());
 
         //YOUR CODE ENDS HERE
     }
@@ -58,6 +77,8 @@ public class TeacherDaoImpl implements TeacherDao {
     public void deleteTeacher(int id) {
         //YOUR CODE STARTS HERE
 
+        String sql = "DELETE FROM teacher WHERE tid = ?";
+        jdbcTemplate.update(sql, id);
 
         //YOUR CODE ENDS HERE
     }
