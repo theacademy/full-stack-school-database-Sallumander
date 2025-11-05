@@ -91,6 +91,8 @@ public class CourseDaoImplTests {
         String sql = "Select count(student_id) from course_student where course_id = 7";
         int studentCount = jdbcTemplate.queryForObject(sql, Integer.class);
         assertEquals(4, studentCount);
+        //Delete all students from course 7
+        courseDao.deleteAllStudentsFromCourse(7);
         studentCount = jdbcTemplate.queryForObject(sql, Integer.class);
         assertEquals(0, studentCount);
     }

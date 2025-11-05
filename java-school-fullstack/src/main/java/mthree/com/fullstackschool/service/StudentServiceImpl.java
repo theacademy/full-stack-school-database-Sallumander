@@ -40,8 +40,8 @@ public class StudentServiceImpl implements StudentServiceInterface {
         boolean lastNameBlank = student.getStudentLastName() == null || student.getStudentLastName().trim().isEmpty();
 
         if (firstNameBlank || lastNameBlank) {
-            student.setStudentFirstName("Name blank, student NOT added");
-            student.setStudentLastName("Name blank, student NOT added");
+            student.setStudentFirstName("First Name blank, student NOT added");
+            student.setStudentLastName("Last Name blank, student NOT added");
             return student;
         }
         return studentDao.createNewStudent(student);
